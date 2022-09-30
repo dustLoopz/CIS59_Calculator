@@ -6,47 +6,53 @@ import java.util.*;
  *Command Line Calculator with User Interface for 2 Variables
  * Dustin Lopez
  * CIS-059 SJCC
- * Menu Functions and User Input Functions based on code provided by Professor Gabriel Solomon
+ * Menu Functions and User Input Functions based on code 
+ * provided by Professor Gabriel Solomon.
  */
 
 public class App 
 {
 	public static void main( String[] args ){
-		float result=0, numA=0, numB=0;                                      //Storing the result, A, and B, as a float.
-		Character command = ' ';                                             //Storing user input command as a char variable.
-		Scanner userInput = new Scanner(System.in);                          //Creating Scanner object to get user input. 
+		//Storing user input, results, and command.
+		float result=0, numA=0, numB=0;                                      
+		Character command = ' ';                                            
+		
+		//Creating Scanner object to get user input. 
+		Scanner userInput = new Scanner(System.in);                          
 
-		// Menu, Command, and Output Loop
-		// Loop Closes Once User Inputs 'q' or 'Q'
+		//Menu, Command, and Output Loop
+		//Loop Closes Once User Inputs 'q' or 'Q'
 		while (command != 'q'){
 			printMenu(numA, numB, result, command);
 			System.out.println("Enter command: ");
 
-			//We use a method getCommand to get command from the user and store it in variable "command"
-			//Passing Scan object "userInput" to allow the method to get user input
+			//We use a method getCommand to get command from the user 
+			//and store it in variable "command", passing Scan object
+			//"userInput" to allow the method to get user input
 			command = getCommand(userInput);
 			
 			//Since Java cannot pass values by reference and 
-			//all primitive and equivalent objects are immutable
-			//We cannot capture persistent values for A and B
-			//without creating a mutable object since we were told not to use classes. 
-			//We have to be inneficient and parse commands 'a', 'b', and 'c' to modify
+			//all primitive and equivalent objects are immutable,
+			//we cannot capture persistent values for A and B
+			//without creating a mutable object. Since we were 
+			//told not to use classes, We have to be ineficient 
+			//and parse commands 'a', 'b', and 'c' to modify
 			//persistent variables. 
-			if (command == 'a'){                                             //Calling getNumber() to persitently store value for A
+			if (command == 'a'){                                   //Storing value for A
 				numA = getNumber(userInput);
-			} else if (command == 'b'){                                      //Calling getNumber() to persitently store value for A
+			} else if (command == 'b'){                            //Storing value for B
 				numB = getNumber(userInput);
-			} else if (command == 'c'){                                      //Clearing Values, Results
+			} else if (command == 'c'){                            //Clearing Values, Results
 				numA=0;
 				numB=0;
 				result=0;
-			} else{                                                          //Executing Operation with Command and Persistent Values
-				result = executeCommand(command, numA, numB);
+			} else{                                                          
+				result = executeCommand(command, numA, numB);     //Executing Operation
 			}                   
 			
 		}
 
-		userInput.close();                                                   //Closing Scanner Object   
+		userInput.close();                                          //Closing Scanner Object   
 	}
 
 	// Calculator functions
@@ -55,38 +61,38 @@ public class App
 	private static Float executeCommand(char command, float num1, float num2) {
      	float output=0;
   	switch (command) {
-     	case 'x':                                                            //Second valid symbol for multiplication
-        case '*':                                                            //Multiplication Case
+     	case 'x':                                                          //Multiplication
+        case '*':                                                            //Multiplication
         	output = num1 * num2; 
             System.out.println("Result = " + printNum(output));
             break;
-        case '/':                                                            //Division Case
-            if (num2 != 0){                                                  //Checking to make sure user isn't dividing by 0
+        case '/':                                                            //Division
+            if (num2 != 0){
                 output = num1 / num2; 
                 System.out.println("Result = " + printNum(output));
             } else{ 
                 System.out.println("Error! Cannot divide by 0!"); 
             }
             break;
-        case '+':                                                            //Addition Case
+        case '+':                                                            //Addition
             output = num1 + num2; 
             System.out.println("Result = " + printNum(output));
             break;
-        case '-':                                                            //Subtraction Case
+        case '-':                                                            //Subtraction
             output = num1 - num2; 
             System.out.println("Result = " + printNum(output));
             break;
-        case 'q':                                                            //Quitting Case
+        case 'q':                                                            //Quitting
 			System.out.println("Thank you for using our calculator!");
 			break;
-        case 'e':                                                            //Error Encountered
+        case 'e':                                                            //Error
 			System.out.println("ERROR: Invalid commmand");
 			break;
-        default:                                                             //Unknown Command Given
+        default:                                                             //Unknown
           System.out.println("ERROR: Unknown commmand");
       }
   
-      return output;                                                         //Returning Float Output to Store in a Variable
+      return output;                                                         //Returning result
     }
 
 	// Prints the menu
@@ -106,7 +112,8 @@ public class App
 		//Displaying current values and the last operation
 		System.out.println("A= " + strA + "\t" + "B= " + strB);
 		if(checkOperation(lastOperation, num2)){
-			System.out.println("Last Operation: " + strA + " " + lastOperation + " " + strB + " = " + strResult);
+			System.out.println("Last Operation: " + strA + " " 
+			+ lastOperation + " " + strB + " = " + strResult);
 		}
 		
 		//Command Options
@@ -147,10 +154,11 @@ public class App
 				System.out.println("Please enter an integer or floating point number.");
 				output = userInput.nextFloat();
 				success = true;
-			} catch(Exception e) {                                               //Invalid input exception caught			
+			//Invalid input exception caught to prevent program crashing
+			} catch(Exception e) {                                   			
 				System.out.println("Invalid Input!");
-				success = false;                                                 //Setting false flag to loop until valid input is given.
-				userInput.next();                                                //Clearing Buffer to Avoid Invalid Input in the buffer creating infinite loop.
+				success = false;                                     //Setting false flag
+				userInput.next();                                    //Clearing Buffer
 			}   
 		} while(success == false);
 			userInput.nextLine(); 
@@ -172,15 +180,22 @@ public class App
 	
 	private static String printNum(float number) {
 		//Formatting Values for 3 decimal places for any number of significant figures
+		//Picks beftween scientific notation and decimal floating point.
+		//Stores precision. Default Precision for single digit number using scientic notation.
 		float absNum = Math.abs(number);
-		char format = 'G';                                                        //Picks beftween scientific notation and decimal floating point.
-		int precision = 4;                                                        //Stores precision. Default Precision for single digit number using scientic notation. 
+		char format = 'G';                                                        
+		int precision = 4;                                                         
 		
-		if (absNum >= 0 && absNum <1){ precision = 3; format = 'f';}              //For numbers less than 1, maintains 3 decimal places. 
-		else if(absNum>=10000 || absNum<10){ precision = 4; }                     //For Numbers Greater than 10000 and lower than 10, scientic notation with 3 decimal points
-		else if (absNum >= 10 && absNum <100){ precision = 5; }                   //Maintains 3 decimal points for double digit numbers
-		else if (absNum >= 100 && absNum <1000){ precision = 6; }                 //Maintains 3 decimal points for triple digit numbers
-		else if (absNum >= 1000 && absNum <10000){ precision = 7;}                //Maintains 3 decimal points for four digit numbers
+		
+		//For numbers less than 1, maintains 3 decimal places.
+		if (absNum >= 0 && absNum <1){ precision = 3; format = 'f';}               
+		else if(absNum>=10000 || absNum<10){ precision = 4; }
+		//Maintains 3 decimal points for double digit numbers                     
+		else if (absNum >= 10 && absNum <100){ precision = 5; }
+		//Maintains 3 decimal points for triple digit numbers
+		else if (absNum >= 100 && absNum <1000){ precision = 6; }
+		//Maintains 3 decimal points for four digit numbers                 
+		else if (absNum >= 1000 && absNum <10000){ precision = 7;}                
 
 		String fNum = String.format("%."+precision+format, number);    
 		return fNum;
