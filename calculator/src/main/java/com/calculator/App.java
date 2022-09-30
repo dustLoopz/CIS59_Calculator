@@ -12,9 +12,9 @@ import java.util.*;
 public class App 
 {
 	public static void main( String[] args ){
-		float result=0, numA=0, numB=0;                                //Storing the result, A, and B, as a float.
-		Character command = ' ';                                       //Storing user input command as a char variable.
-		Scanner userInput = new Scanner(System.in);                    //Creating Scanner object to get user input. 
+		float result=0, numA=0, numB=0;                                      //Storing the result, A, and B, as a float.
+		Character command = ' ';                                             //Storing user input command as a char variable.
+		Scanner userInput = new Scanner(System.in);                          //Creating Scanner object to get user input. 
 
 		// Menu, Command, and Output Loop
 		// Loop Closes Once User Inputs 'q' or 'Q'
@@ -32,21 +32,21 @@ public class App
 			//without creating a mutable object since we were told not to use classes. 
 			//We have to be inneficient and parse commands 'a', 'b', and 'c' to modify
 			//persistent variables. 
-			if (command == 'a'){                                       //Calling getNumber() to persitently store value for A
+			if (command == 'a'){                                             //Calling getNumber() to persitently store value for A
 				numA = getNumber(userInput);
-			} else if (command == 'b'){                                //Calling getNumber() to persitently store value for A
+			} else if (command == 'b'){                                      //Calling getNumber() to persitently store value for A
 				numB = getNumber(userInput);
-			} else if (command == 'c'){                                //Clearing Values, Results
+			} else if (command == 'c'){                                      //Clearing Values, Results
 				numA=0;
 				numB=0;
 				result=0;
-			} else{                                                    //Executing Operation with Command and Persistent Values
+			} else{                                                          //Executing Operation with Command and Persistent Values
 				result = executeCommand(command, numA, numB);
 			}                   
 			
 		}
 
-		userInput.close();                                            //Closing Scanner Object   
+		userInput.close();                                                   //Closing Scanner Object   
 	}
 
 	// Calculator functions
@@ -147,10 +147,10 @@ public class App
 				System.out.println("Please enter an integer or floating point number.");
 				output = userInput.nextFloat();
 				success = true;
-			} catch(Exception e) {                                                           //Invalid input exception caught			
+			} catch(Exception e) {                                               //Invalid input exception caught			
 				System.out.println("Invalid Input!");
-				success = false;                                                            //Setting false flag to loop until valid input is given.
-				userInput.next();                                                           //Clearing Buffer to Avoid Invalid Input in the buffer creating infinite loop.
+				success = false;                                                 //Setting false flag to loop until valid input is given.
+				userInput.next();                                                //Clearing Buffer to Avoid Invalid Input in the buffer creating infinite loop.
 			}   
 		} while(success == false);
 			userInput.nextLine(); 
@@ -173,14 +173,14 @@ public class App
 	private static String printNum(float number) {
 		//Formatting Values for 3 decimal places for any number of significant figures
 		float absNum = Math.abs(number);
-		char format = 'G';                                                                  //Picks beftween scientific notation and decimal floating point.
-		int precision = 4;                                                                  //Stores precision. Default Precision for single digit number using scientic notation. 
+		char format = 'G';                                                        //Picks beftween scientific notation and decimal floating point.
+		int precision = 4;                                                        //Stores precision. Default Precision for single digit number using scientic notation. 
 		
-		if (absNum >= 0 && absNum <1){ precision = 3; format = 'f';}                        //For numbers less than 1, maintains 3 decimal places. 
-		else if(absNum>=10000 || absNum<10){ precision = 4; }                               //For Numbers Greater than 10000 and lower than 10, scientic notation with 3 decimal points
-		else if (absNum >= 10 && absNum <100){ precision = 5; }                             //Maintains 3 decimal points for double digit numbers
-		else if (absNum >= 100 && absNum <1000){ precision = 6; }                           //Maintains 3 decimal points for triple digit numbers
-		else if (absNum >= 1000 && absNum <10000){ precision = 7;}                          //Maintains 3 decimal points for four digit numbers
+		if (absNum >= 0 && absNum <1){ precision = 3; format = 'f';}              //For numbers less than 1, maintains 3 decimal places. 
+		else if(absNum>=10000 || absNum<10){ precision = 4; }                     //For Numbers Greater than 10000 and lower than 10, scientic notation with 3 decimal points
+		else if (absNum >= 10 && absNum <100){ precision = 5; }                   //Maintains 3 decimal points for double digit numbers
+		else if (absNum >= 100 && absNum <1000){ precision = 6; }                 //Maintains 3 decimal points for triple digit numbers
+		else if (absNum >= 1000 && absNum <10000){ precision = 7;}                //Maintains 3 decimal points for four digit numbers
 
 		String fNum = String.format("%."+precision+format, number);    
 		return fNum;
