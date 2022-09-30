@@ -62,9 +62,11 @@ public class App
             break;
         case '/':                                                            //Division Case
             if (num2 != 0){                                                  //Checking to make sure user isn't dividing by 0
-              output = num1 / num2; 
-              System.out.println("Result = " + printNum(output));
-            } else{ System.out.println("Error! Cannot divide by 0!"); }
+                output = num1 / num2; 
+                System.out.println("Result = " + printNum(output));
+            } else{ 
+                System.out.println("Error! Cannot divide by 0!"); 
+            }
             break;
         case '+':                                                            //Addition Case
             output = num1 + num2; 
@@ -103,7 +105,7 @@ public class App
 		
 		//Displaying current values and the last operation
 		System.out.println("A= " + strA + "\t" + "B= " + strB);
-		if(checkOperation(lastOperation)){
+		if(checkOperation(lastOperation, num2)){
 			System.out.println("Last Operation: " + strA + " " + lastOperation + " " + strB + " = " + strResult);
 		}
 		
@@ -156,8 +158,9 @@ public class App
     }
 
 	// Menu functions
-	private static Boolean checkOperation(Character command) {
-		if (command == '+' || command == '*' || command == '-'|| command == '/' || command == 'x' ){return true;} 
+	private static Boolean checkOperation(Character command, float numB) {
+		if (command == '+' || command == '*' || command == '-' || command == 'x' ){return true;}
+        else if(command == '/' && numB != 0 ){return true;}
 		else{ return false; }
 	}
 	
